@@ -22,9 +22,10 @@ phases:
     commands:
       - echo ${ECR_REPO}  
       - echo ${TAG}
-  post_build: # Deploy
-    commands:
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
       - kubectl apply -f build/app.yaml -o json > result.json
+  post_build: # Deploy
+    commands:
+      - kubectl get po -o wide
 artifacts:
   files: result.json      
