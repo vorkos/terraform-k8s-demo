@@ -58,7 +58,7 @@ variable "build_image" {
 
 # define build spec for build stage
 variable "build_spec" {
-  default = "build/buildspec.yaml"
+  default = "../build/buildspec.yaml"
 }
 
 # define docker image for deploy stage
@@ -68,7 +68,7 @@ variable "deploy_image" {
 
 # define build spec for deploy stage
 variable "deploy_spec" {
-  default = "build/deploy.yaml"
+  default = "../build/deploy.yaml"
 }
 
 variable "github_org" {
