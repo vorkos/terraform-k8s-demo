@@ -12,19 +12,18 @@ phases:
        - mv ./kubectl /usr/local/bin/kubectl
        - printenv
        - tree
+       - ls ${CODEBUILD_SRC_DIR_build}
   pre_build: # Add kubeconfig to access to EKS cluster
     commands:
-        - TAG="$(cat build.json | jq -r '.[0].Tag')"
+        - TAG="$(cat ${CODEBUILD_SRC_DIR_build}/build.json | jq -r '.[0].Tag')"
         - sed -i 's@CONTAINER_IMAGE@'"$ECR_REPO:$TAG"'@' build/app.yaml
-        - $(aws ecr get-login --no-include-email)
+        - $(aws ecr get-login --no-include-email --region us-east-1)
         - export KUBECONFIG=$HOME/.kube/config
   build: # Pull Docker image 
     commands:
       - docker pull $ECR_REPO:$TAG
   post_build: # Deploy
     commands:
-      - $(aws ecr get-login --no-include-email --region us-east-1)
-      - docker push $ECR_REPO:$TAG
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
       - kubectl apply -f build/app.yaml -o json > result.json
 artifacts:
