@@ -21,7 +21,6 @@ resource "aws_codepipeline" "tf-eks-pipeline" {
   stage {
     name = "Source"
 
-
     action {
       name             = "Source"
       category         = "Source"
