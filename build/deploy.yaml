@@ -3,7 +3,7 @@ phases:
   install: # Install AWS cli, kubectl
     commands:
        - apt-get -qq update
-       - DEBIAN_FRONTEND=noninteractive apt-get install -y awscli git python3 jq
+       - DEBIAN_FRONTEND=noninteractive apt-get install -y awscli git python3 jq tree
        - curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
        - chmod +x ./aws-iam-authenticator
        - mkdir -p ~/bin && cp ./aws-iam-authenticator ~/bin/aws-iam-authenticator && export PATH=~/bin:$PATH
