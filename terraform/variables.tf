@@ -63,7 +63,7 @@ variable "build_spec" {
 
 # define docker image for deploy stage
 variable "deploy_image" {
-  default = "shawnxlw/ide"
+  default = "aws/codebuild/standard:3.0"
 }
 
 # define build spec for deploy stage
