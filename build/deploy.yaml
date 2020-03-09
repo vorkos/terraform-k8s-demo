@@ -17,11 +17,11 @@ phases:
     commands:
         - TAG="$(cat ${CODEBUILD_SRC_DIR_build}/build.json | jq -r '.[0].Tag')"
         - sed -i 's@CONTAINER_IMAGE@'"$ECR_REPO:$TAG"'@' build/app.yaml
-        - $(aws ecr get-login --no-include-email --region us-east-1)
         - export KUBECONFIG=$HOME/.kube/config
   build: # Pull Docker image 
     commands:
-      - docker pull $ECR_REPO:$TAG
+      - echo ${ECR_REPO}  
+      - echo ${TAG}
   post_build: # Deploy
     commands:
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
