@@ -11,6 +11,7 @@ phases:
        - chmod +x kubectl
        - mv ./kubectl /usr/local/bin/kubectl
        - printenv
+       - tree
   pre_build: # Add kubeconfig to access to EKS cluster
     commands:
         - TAG="$(cat build.json | jq -r '.[0].Tag')"

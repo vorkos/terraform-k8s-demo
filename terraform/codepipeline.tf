@@ -69,7 +69,8 @@ resource "aws_codepipeline" "tf-eks-pipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.tf-eks-deploy-staging.name
+        ProjectName   = aws_codebuild_project.tf-eks-deploy-staging.name
+        PrimarySource = "source"
       }
     }
   }
