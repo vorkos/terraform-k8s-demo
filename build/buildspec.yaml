@@ -3,7 +3,7 @@ phases:
   install: # Install AWS cli, kubectl
     commands:
        - apt-get -qq update
-       - apt-get -qq install -y awscli git python3
+       - DEBIAN_FRONTEND=noninteractive apt-get -qq install -y awscli git python3
        - printenv
   pre_build: # Add kubeconfig to access to EKS cluster
     commands:
@@ -18,6 +18,6 @@ phases:
     commands:
       - $(aws ecr get-login --no-include-email --region us-east-1)
       - docker push $ECR_REPO:$TAG
-      - printf '[{"name":"app","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
+      - printf '[{"name":"app","imageUri":"%s","Tag":"%s"}]' $ECR_REPO:$TAG $TAG > build.json
 artifacts:
   files: build.json      
