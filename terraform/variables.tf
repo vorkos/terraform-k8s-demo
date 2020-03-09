@@ -19,6 +19,7 @@ variable "map_roles" {
   }))
 
   default = [
+      
   ]
 }
 
@@ -37,4 +38,39 @@ variable "map_users" {
       groups   = ["system:masters"]
     },
   ]
+}
+
+
+# CodeCommit and ECR repo name, also as artifact bucket prefix
+variable "repo_name" {
+  default = "terraform-k8s-demo"
+}
+
+# define default git branch
+variable "default_branch" {
+  default = "master"
+}
+
+# define docker image for build stage
+variable "build_image" {
+  default = "aws/codebuild/docker:18.09.0"
+}
+
+# define build spec for build stage
+variable "build_spec" {
+  default = "build/buildspec.yaml"
+}
+
+# define docker image for deploy stage
+variable "deploy_image" {
+  default = "shawnxlw/ide"
+}
+
+# define build spec for deploy stage
+variable "deploy_spec" {
+  default = "build/deploy.yaml"
+}
+
+variable "github_org" {
+  default = "vorkos"
 }

@@ -80,4 +80,12 @@ module "eks" {
       public_ip            = true
     }
   ]
+  map_users                = var.map_users
+  map_roles                = [    
+    {
+      rolearn  = aws_iam_role.tf-eks-pipeline.arn
+      username = aws_iam_role.tf-eks-pipeline.name
+      groups   = ["system:masters"]
+    },
+  ]
 }
