@@ -48,7 +48,7 @@ variable "repo_name" {
 
 # define default git branch
 variable "default_branch" {
-  default = "develop"
+  default = "debug/buildspec"
 }
 
 # define docker image for build stage

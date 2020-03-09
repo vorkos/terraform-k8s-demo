@@ -12,7 +12,7 @@ phases:
        - mv ./kubectl /usr/local/bin/kubectl
        - printenv
        - tree
-       - ls ${CODEBUILD_SRC_DIR_build}
+       - cat ${CODEBUILD_SRC_DIR_build}/build.json | jq -r '.'
   pre_build: # Add kubeconfig to access to EKS cluster
     commands:
         - TAG="$(cat ${CODEBUILD_SRC_DIR_build}/build.json | jq -r '.[0].Tag')"
