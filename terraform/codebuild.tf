@@ -52,6 +52,11 @@ resource "aws_codebuild_project" "tf-eks-deploy-staging" {
         name  = "ECR_REPO"
         value = aws_ecr_repository.tf-eks-ecr.repository_url
     }
+
+    environment_variable { 
+        name  = "EKS_CLUSTER_NAME"
+        value = local.cluster_name
+    }
   }
 
   source {
@@ -84,6 +89,11 @@ resource "aws_codebuild_project" "tf-eks-deploy-prod" {
     environment_variable {
       name  = "ECR_REPO"
       value = aws_ecr_repository.tf-eks-ecr.repository_url
+    }
+
+    environment_variable { 
+        name  = "EKS_CLUSTER_NAME"
+        value = local.cluster_name
     }
   }
 

@@ -1,9 +1,9 @@
 version: 0.2
 phases:
-  install: # Install AWS cli, kubectl (needed for Helm) and Helm
+  install: # Install AWS cli, kubectl
     commands:
        - apt-get -qq update
-       - apt-get -qq install -y awscli git python3
+       - DEBIAN_FRONTEND=noninteractive apt-get install -y awscli git python3 jq
        - curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
        - chmod +x ./aws-iam-authenticator
        - mkdir -p ~/bin && cp ./aws-iam-authenticator ~/bin/aws-iam-authenticator && export PATH=~/bin:$PATH
@@ -12,19 +12,18 @@ phases:
        - mv ./kubectl /usr/local/bin/kubectl
   pre_build: # Add kubeconfig to access to EKS cluster
     commands:
-        - TAG="$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+        - TAG="$(cat build.json | jq -r '.[0].Tag')"
         - sed -i 's@CONTAINER_IMAGE@'"$ECR_REPO:$TAG"'@' build/app.yaml
         - $(aws ecr get-login --no-include-email)
         - export KUBECONFIG=$HOME/.kube/config
-  build: # Build Docker image and tag it with the commit sha
+  build: # Pull Docker image 
     commands:
-      - docker build --tag $ECR_REPO:$TAG .
-  post_build: # Push the Docker image to the ECR
+      - docker pull $ECR_REPO:$TAG
+  post_build: # Deploy
     commands:
       - $(aws ecr get-login --no-include-email --region us-east-1)
       - docker push $ECR_REPO:$TAG
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
-      - kubectl apply -f build/app.yaml
-      - printf '[{"name":"app","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
+      - kubectl apply -f build/app.yaml -o json > result.json
 artifacts:
-  files: build.json      
+  files: result.json      
