@@ -48,6 +48,7 @@ resource "aws_codepipeline" "tf-eks-pipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       input_artifacts  = ["source"]
+      output_artifacts = ["build"]
       version          = "1"
 
       configuration = {
@@ -64,7 +65,7 @@ resource "aws_codepipeline" "tf-eks-pipeline" {
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
-      input_artifacts  = ["source"]
+      input_artifacts  = ["build"]
       version          = "1"
 
       configuration = {
