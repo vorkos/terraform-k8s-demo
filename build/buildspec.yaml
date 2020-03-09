@@ -2,7 +2,7 @@ version: 0.2
 phases:
   install: # Install AWS cli, kubectl (needed for Helm) and Helm
     commands:
-       - apt-get update
+       - apt-get -qq update
        - apt-get install -y awscli git python3
        - curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
        - chmod +x ./aws-iam-authenticator
@@ -14,7 +14,7 @@ phases:
   pre_build: # Add kubeconfig to access to EKS cluster
     commands:
         - TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-        - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' app.yaml
+        - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' build/app.yaml
         - $(aws ecr get-login --no-include-email)
         - export KUBECONFIG=$HOME/.kube/config
   build: # Build Docker image and tag it with the commit sha
