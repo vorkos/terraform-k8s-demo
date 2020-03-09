@@ -63,7 +63,7 @@ variable "build_spec" {
 
 # define docker image for deploy stage
 variable "deploy_image" {
-  default = "aws/codebuild/standard:3.0"
+  default = "aws/codebuild/docker:18.09.0"
 }
 
 # define build spec for deploy stage
