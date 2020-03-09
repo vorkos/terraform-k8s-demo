@@ -10,6 +10,7 @@ phases:
        - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
        - chmod +x kubectl
        - mv ./kubectl /usr/local/bin/kubectl
+       - printenv
   pre_build: # Add kubeconfig to access to EKS cluster
     commands:
         - TAG="$(cat build.json | jq -r '.[0].Tag')"
