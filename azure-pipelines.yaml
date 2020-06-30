@@ -15,3 +15,5 @@ resources:
 
 jobs:
   - template: dry/tf-check.yml@templates
+    parameters:
+      tfDir: 'terraform'
