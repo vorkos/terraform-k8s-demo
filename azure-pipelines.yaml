@@ -4,7 +4,7 @@ pr:
   - master
 
 pool:
-  vmImage: 'CentOS-latest'
+  vmImage: 'Ubuntu-20.04'
 
 resources:
   repositories:
