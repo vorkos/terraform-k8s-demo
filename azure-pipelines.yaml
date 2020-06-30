@@ -11,6 +11,7 @@ resources:
     - repository: templates
       type: github
       name: vorkos/ado-templates  
+      endpoint: vorkos
 
 jobs:
   - template: dry/tf-check.yml@templates
